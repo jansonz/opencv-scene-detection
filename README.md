@@ -13,7 +13,7 @@ This project is an POC implementation of video scene detection using OpenCV.
 
 To install and set up the project, follow these steps:
 
-1. Clone the repository: `$ git clone https://github.com/your-username/opencv-scene-detection.git`
+1. Clone the repository: `$ git clone https://github.com/jansonz/opencv-scene-detection`
 2. Navigate to the project directory: `$ cd opencv-scene-detection`
 3. Install the required dependencies: `$ pip install -r requirements.txt`
 
