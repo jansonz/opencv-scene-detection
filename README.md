@@ -1,30 +1,55 @@
-# Project Name
 
-This project is an POC implementation of video scene detection using OpenCV.
+# Video Scene Change Detector
+
+This project is a proof of concept (POC) implementation of video scene detection using OpenCV, designed to detect scene changes in a video file and optionally write the timestamps of these changes to a text file.
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Features](#features)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Installation
 
-To install and set up the project, follow these steps:
+To set up the project, please follow these steps:
 
-1. Clone the repository: `$ git clone https://github.com/jansonz/opencv-scene-detection`
-2. Navigate to the project directory: `$ cd opencv-scene-detection`
-3. Install the required dependencies: `$ pip install -r requirements.txt`
+1. Clone the repository:
+   ```
+   git clone https://github.com/jansonz/opencv-scene-detection
+   ```
+2. Navigate to the project directory:
+   ```
+   cd opencv-scene-detection
+   ```
+3. Install the required dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
 
 ## Usage
 
-To use the project, follow these steps:
+The script now supports command-line arguments for flexible operation. To use the project, execute the script with the following command:
 
-1. Prepare a video file for scene detection.
-2. Change the VIDEO_SOURCE path variable in the `scenechange.py` file to point to the video file. Many sources are supported i.e webcam, a local file or a live stream.
-2. Run the scene detection script: `$ python scenechange.py`
-3. When the script detects a scene change it will display a video text overlay.
+```
+python scene_change_detector.py --input <path_to_video> [--textout <output_text_file>] [--silent] [--verbose]
+```
+
+### Arguments
+
+- `--input`: Path to the input video file (required).
+- `--textout`: Enable text output to a file and specify the file path. If not specified, defaults to `scene_changes.txt`.
+- `--silent`: Run the process in the background without opening the video window.
+  > [!warning]- Performance is significantly reduced if not running silently.
+- `--verbose`: Enable verbose output to provide progress and frame rate information.
+
+## Features
+
+- **Scene Change Detection**: Utilizes color histogram comparison to detect changes between frames.
+- **Text Output**: Optionally writes scene change timestamps to a text file.
+- **Silent Mode**: Can run without opening the video window for increased performance.
+- **Verbose Mode**: Provides detailed progress and frame rate information during processing.
 
 ## Contributing
 
