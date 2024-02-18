@@ -22,6 +22,11 @@ VERBOSE_MODE = args.verbose
 cap = None
 file_out = None
 
+overlay_timeout = 25
+frame_counter = 0
+overlay_active = False 
+
+
 # Signal handler function for graceful shutdown
 def signal_handler(signum, frame):
     print("\nReceived termination signal. Exiting gracefully...")
@@ -32,6 +37,7 @@ def signal_handler(signum, frame):
         file_out.close()
     cv2.destroyAllWindows()
     exit(0)
+
 
 # Register signal handler for SIGINT (Ctrl+C) and SIGTERM
 signal.signal(signal.SIGINT, signal_handler)
@@ -89,8 +95,18 @@ try:
             if file_out:
                 file_out.write(f"Scene change at: {formatted_time}\n")
             if not SILENT_MODE:
-                cv2.putText(frame, "Scene Change Detected", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                if frame_counter < overlay_timeout:
+                    cv2.putText(frame, "Scene Change Detected", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                    overlay_active = True
             last_scene_change = current_time
+
+        if not SILENT_MODE:
+            if frame_counter < overlay_timeout and overlay_active:
+                cv2.putText(frame, "Scene Change Detected", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                frame_counter += 1
+            else:
+                overlay_active = False
+                frame_counter = 0
 
         if VERBOSE_MODE and total_frames > 0:
             progress = int(50 * current_frame / total_frames)
