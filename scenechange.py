@@ -5,11 +5,18 @@ import time
 import signal  # Import the signal module
 
 # Set up argument parsing
-parser = argparse.ArgumentParser(description="Detects scene changes in a video or live stream and optionally writes timestamps to a text file.")
-parser.add_argument("--input", help="Path to the input video file or URL of the live stream.", required=True)
-parser.add_argument("--textout", help="Enable text output to a file and specify the file path.", nargs='?', const="scene_changes.txt", type=str)
-parser.add_argument("--silent", help="Run the process in the background without opening the video window. Performance significantly reduced if not running silently", action="store_true")
-parser.add_argument("--verbose", help="Enable verbose output to provide progress and frame rate information.", action="store_true")
+parser = argparse.ArgumentParser(
+    description="Detects scene changes in a video or live stream and optionally writes timestamps to a text file.")
+parser.add_argument(
+    "--input", help="Path to the input video file or URL of the live stream.", required=True)
+parser.add_argument(
+    "--textout", help="Enable text output to a file and specify the file path.",
+    nargs='?', const="scene_changes.txt", type=str)
+parser.add_argument(
+    "--silent", help="Run the process in the background without opening the video window.\
+    Performance significantly reduced if not running silently", action="store_true")
+parser.add_argument(
+    "--verbose", help="Enable verbose output to provide progress and frame rate information.", action="store_true")
 
 args = parser.parse_args()
 
@@ -24,7 +31,7 @@ file_out = None
 
 overlay_timeout = 25
 frame_counter = 0
-overlay_active = False 
+overlay_active = False
 
 
 # Signal handler function for graceful shutdown
@@ -52,7 +59,7 @@ if not cap.isOpened():
 
 try:
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-except:
+except ValueError:
     total_frames = -1  # Indicates live stream
 
 current_frame = 0
@@ -111,7 +118,9 @@ try:
         if VERBOSE_MODE and total_frames > 0:
             progress = int(50 * current_frame / total_frames)
             bar = "[" + "=" * progress + " " * (50 - progress) + "]"
-            print(f"\r{bar} {current_frame}/{total_frames} frames processed, FPS: {current_frame / (time.time() - start_time):.2f}", end="")
+            print(
+                f"\r{bar} {current_frame}/{total_frames} frames processed, FPS:\
+                {current_frame / (time.time() - start_time):.2f}", end="")
         elif VERBOSE_MODE:
             print(f"\r{current_frame} frames processed, FPS: {current_frame / (time.time() - start_time):.2f}", end="")
 
